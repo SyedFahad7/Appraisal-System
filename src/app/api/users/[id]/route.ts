@@ -5,8 +5,10 @@ import { getCurrentUser } from '@/lib/auth';
 import bcrypt from 'bcryptjs';
 
 // Get user by ID
-export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(req: NextRequest, context: { params: Promise<{ id: string }> }) {
   try {
+    const params = await context.params;
+    
     // Connect to database
     await connectToDatabase();
     
@@ -50,7 +52,7 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
     }
     
     if (currentUser.role === 'HOD' &&
-        user.departmentId?.toString() !== currentUser.departmentId?.toString()) {
+        user.departmentId?.toString() !== currentUser.departmentId) {
       return NextResponse.json(
         { error: 'Access denied' },
         { status: 403 }
@@ -68,8 +70,10 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
 }
 
 // Update user
-export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
+export async function PUT(req: NextRequest, context: { params: Promise<{ id: string }> }) {
   try {
+    const params = await context.params;
+    
     // Connect to database
     await connectToDatabase();
     
@@ -116,7 +120,7 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
     }
     
     if (currentUser.role === 'HOD' && 
-        user.departmentId.toString() !== currentUser.departmentId) {
+        user.departmentId?.toString() !== currentUser.departmentId) {
       return NextResponse.json(
         { error: 'Access denied' },
         { status: 403 }
@@ -133,7 +137,7 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
     
     // Prevent department changes except by Principal
     if (userData.departmentId && 
-        userData.departmentId !== user.departmentId.toString() && 
+        userData.departmentId !== user.departmentId?.toString() && 
         currentUser.role !== 'Principal') {
       return NextResponse.json(
         { error: 'Only Principal can change user departments' },
@@ -159,8 +163,10 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
 }
 
 // Reset user password
-export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
+export async function PATCH(req: NextRequest, context: { params: Promise<{ id: string }> }) {
   try {
+    const params = await context.params;
+    
     // Connect to database
     await connectToDatabase();
     
@@ -226,7 +232,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
       }
       
       if (currentUser.role === 'HOD' && 
-          user.departmentId.toString() !== currentUser.departmentId) {
+          user.departmentId?.toString() !== currentUser.departmentId) {
         return NextResponse.json(
           { error: 'HOD can only reset passwords in their department' },
           { status: 403 }
@@ -261,8 +267,10 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
 }
 
 // Delete user
-export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(req: NextRequest, context: { params: Promise<{ id: string }> }) {
   try {
+    const params = await context.params;
+    
     // Connect to database
     await connectToDatabase();
     
@@ -304,7 +312,7 @@ export async function DELETE(req: NextRequest, { params }: { params: { id: strin
     }
     
     if (currentUser.role === 'HOD' && 
-        user.departmentId.toString() !== currentUser.departmentId) {
+        user.departmentId?.toString() !== currentUser.departmentId) {
       return NextResponse.json(
         { error: 'HOD can only delete users in their department' },
         { status: 403 }
