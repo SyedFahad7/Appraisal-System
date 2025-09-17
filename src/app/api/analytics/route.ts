@@ -95,6 +95,7 @@ export async function GET(req: NextRequest) {
     for (const department of departments) {
       const departmentAppraisals = appraisals.filter(
         appraisal => department && appraisal.departmentId.toString() === (department._id as ObjectId).toString()
+        appraisal => department && appraisal.departmentId.toString() === (department._id as any).toString()
       );
       
       let departmentTotalScore = 0;

@@ -39,7 +39,7 @@ export async function POST(req: NextRequest) {
     await connectToDatabase();
     
     // Get current user from token
-    const currentUser = getCurrentUser();
+    const currentUser = await getCurrentUser();
     
     if (!currentUser) {
       return NextResponse.json(
