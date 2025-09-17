@@ -3,7 +3,7 @@ import connectToDatabase from '@/lib/db';
 import PrincipalRemarks from '@/models/PrincipalRemarks';
 import HodAppraisal from '@/models/HodAppraisal';
 import FacultySelfAppraisal from '@/models/FacultySelfAppraisal';
-import { getCurrentUser } from '@/lib/auth';
+import { getServerCurrentUser } from '@/lib/auth';
 
 // Get Principal remarks
 export async function GET(req: NextRequest) {
@@ -12,7 +12,7 @@ export async function GET(req: NextRequest) {
     await connectToDatabase();
     
     // Get current user from token
-    const currentUser = getCurrentUser();
+    const currentUser = getServerCurrentUser(req);
     
     if (!currentUser) {
       return NextResponse.json(
@@ -72,7 +72,7 @@ export async function POST(req: NextRequest) {
     await connectToDatabase();
     
     // Get current user from token
-    const currentUser = getCurrentUser();
+    const currentUser = getServerCurrentUser(req);
     
     if (!currentUser) {
       return NextResponse.json(

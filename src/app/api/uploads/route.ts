@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { writeFile, mkdir } from 'fs/promises';
 import { join } from 'path';
-import { getCurrentUser } from '@/lib/auth';
+import { getServerCurrentUser } from '@/lib/auth';
 import { existsSync } from 'fs';
 import connectToDatabase from '@/lib/db';
 import FacultySelfAppraisal from '@/models/FacultySelfAppraisal';
@@ -10,7 +10,7 @@ import FacultySelfAppraisal from '@/models/FacultySelfAppraisal';
 export async function POST(req: NextRequest) {
   try {
     // Get current user from token
-    const currentUser = getCurrentUser();
+    const currentUser = getServerCurrentUser(req);
     
     if (!currentUser) {
       return NextResponse.json(

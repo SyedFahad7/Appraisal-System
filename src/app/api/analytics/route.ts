@@ -3,7 +3,7 @@ import connectToDatabase from '@/lib/db';
 import HodAppraisal from '@/models/HodAppraisal';
 import User from '@/models/User';
 import Department from '@/models/Department';
-import { getCurrentUser } from '@/lib/auth';
+import { getServerCurrentUser } from '@/lib/auth';
 
 // Get analytics data
 export async function GET(req: NextRequest) {
@@ -12,7 +12,7 @@ export async function GET(req: NextRequest) {
     await connectToDatabase();
     
     // Get current user from token
-    const currentUser = getCurrentUser();
+    const currentUser = getServerCurrentUser(req);
     
     if (!currentUser) {
       return NextResponse.json(
