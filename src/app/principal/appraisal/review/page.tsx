@@ -13,7 +13,8 @@ export default function PrincipalAppraisalReviewList() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   
-  useEffect(async () => {
+  useEffect(() => {
+    const fetchData = async () => {
     // Check if user is authenticated and is Principal
     const currentUser = await getCurrentUser();
     if (!currentUser || currentUser.role !== 'Principal') {
@@ -41,7 +42,10 @@ export default function PrincipalAppraisalReviewList() {
       }
     };
     
-    fetchAcademicYears();
+      fetchAcademicYears();
+    };
+    
+    fetchData();
   }, [router]);
   
   useEffect(() => {

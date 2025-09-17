@@ -13,30 +13,31 @@ export default function HodAppraisalReview() {
   const [academicYear, setAcademicYear] = useState<string>(new Date().getFullYear().toString());
   
   useEffect(() => {
-     const fetchData = async () => {
-       const currentUser = await getCurrentUser();
-       if (!currentUser || currentUser.role !== 'HOD') {
-         router.push('/login');
-         return;
-       }
-       setUser(currentUser);
+    const fetchData = async () => {
+      const currentUser = await getCurrentUser();
+      if (!currentUser || currentUser.role !== 'HOD') {
+        router.push('/login');
+        return;
+      }
+      setUser(currentUser);
 
-       // Fetch appraisals
-       try {
-         const response = await fetch(`/api/appraisals/hod?academicYear=${academicYear}`);
-         if (!response.ok) {
-           throw new Error('Failed to fetch appraisals');
-         }
-         const data = await response.json();
-         setAppraisals(data.appraisals);
-       } catch (error: any) {
-         setError(error.message);
-       }
-     };
-     fetchData();
-   }, [academicYear, router]);
+      // Fetch appraisals
+      try {
+        const response = await fetch(`/api/appraisals/hod?academicYear=${academicYear}`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch appraisals');
+        }
+        const data = await response.json();
+        setAppraisals(data.appraisals);
+      } catch (error: any) {
+        setError(error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
     
-  setLoading(false);
+    fetchData();
+  }, [academicYear, router]);
   
   const handleYearChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setAcademicYear(e.target.value);

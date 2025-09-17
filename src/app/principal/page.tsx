@@ -16,7 +16,8 @@ export default function PrincipalDashboard() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   
-  useEffect(async () => {
+  useEffect(() => {
+    const fetchData = async () => {
     // Check if user is authenticated and is Principal
     const currentUser = await getCurrentUser();
     if (!currentUser || currentUser.role !== 'Principal') {
@@ -63,7 +64,10 @@ export default function PrincipalDashboard() {
       }
     };
     
-    fetchDashboardStats();
+      fetchDashboardStats();
+    };
+    
+    fetchData();
   }, [router]);
   
   const navigateTo = (path: string) => {

@@ -12,27 +12,28 @@ export default function HodDashboard() {
   
   useEffect(() => {
     const fetchData = async () => {
-    const currentUser = await getCurrentUser();
-    if (!currentUser || currentUser.role !== 'HOD') {
-      router.push('/login');
-      return;
-    }
-    
-    setUser(currentUser);
-    
-    // Fetch faculties in the department
-    try {
-      const response = await fetch(`/api/users?departmentId=${currentUser.departmentId}&role=Faculty`);
-      if (response.ok) {
-        const data = await response.json();
-        setFaculties(data.users);
+      const currentUser = await getCurrentUser();
+      if (!currentUser || currentUser.role !== 'HOD') {
+        router.push('/login');
+        return;
       }
+      
+      setUser(currentUser);
+      
+      // Fetch faculties in the department
+      try {
+        const response = await fetch(`/api/users?departmentId=${currentUser.departmentId}&role=Faculty`);
+        if (response.ok) {
+          const data = await response.json();
+          setFaculties(data.users);
+        }
       } catch (error) {
         console.error('Error fetching faculties:', error);
       } finally {
         setLoading(false);
       }
     };
+    
     fetchData();
   }, [router]);
   

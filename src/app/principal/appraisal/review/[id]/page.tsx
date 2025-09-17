@@ -26,7 +26,8 @@ export default function PrincipalAppraisalReview({ params }: { params: { id: str
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   
-  useEffect(async () => {
+  useEffect(() => {
+    const fetchData = async () => {
     // Check if user is authenticated and is Principal
     const currentUser = await getCurrentUser();
     if (!currentUser || currentUser.role !== 'Principal') {
@@ -73,7 +74,10 @@ export default function PrincipalAppraisalReview({ params }: { params: { id: str
       }
     };
     
-    fetchAppraisalDetails();
+      fetchAppraisalDetails();
+    };
+    
+    fetchData();
   }, [appraisalId, router]);
   
   const handleInputChange = (field: string, value: string) => {

@@ -83,6 +83,7 @@ export default function HodAppraisalForm({ params }: { params: { id: string } })
   });
   
   useEffect(() => {
+    const fetchData = async () => {
     // Check if user is authenticated and is HOD
     const currentUser = getCurrentUser();
     if (!currentUser || currentUser.role !== 'HOD') {
@@ -156,7 +157,10 @@ export default function HodAppraisalForm({ params }: { params: { id: string } })
       }
     };
     
-    fetchFacultyDetails();
+      fetchFacultyDetails();
+    };
+    
+    fetchData();
   }, [facultyId, router]);
   
   // Calculate weighted score
