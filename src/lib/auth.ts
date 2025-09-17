@@ -1,5 +1,4 @@
 import jwt from 'jsonwebtoken';
-import { cookies } from 'next/headers';
 import { NextRequest } from 'next/server';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'lords-faculty-appraisal-jwt-secret';
@@ -27,29 +26,6 @@ export const verifyToken = (token: string): UserJwtPayload | null => {
   }
 };
 
-// Set JWT token in HTTP-only cookie
-export const setTokenCookie = (token: string) => {
-  cookies().set({
-    name: 'token',
-    value: token,
-    httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: 'strict',
-    path: '/',
-    maxAge: 7 * 24 * 60 * 60 // 7 days
-  });
-};
-
-// Remove JWT token cookie
-export const removeTokenCookie = () => {
-  cookies().delete('token');
-};
-
-// Get JWT token from cookies
-export const getTokenFromCookies = (): string | undefined => {
-  return cookies().get('token')?.value;
-};
-
 // Get JWT token from request
 export const getTokenFromRequest = (req: NextRequest): string | null => {
   // Try to get token from cookies
@@ -65,10 +41,28 @@ export const getTokenFromRequest = (req: NextRequest): string | null => {
   return null;
 };
 
-// Get current user from token
+// Client-side function to get current user from localStorage
 export const getCurrentUser = (): UserJwtPayload | null => {
-  const token = getTokenFromCookies();
-  if (!token) return null;
+  if (typeof window === 'undefined') return null;
   
-  return verifyToken(token);
+  try {
+    const userData = localStorage.getItem('user');
+    return userData ? JSON.parse(userData) : null;
+  } catch (error) {
+    return null;
+  }
+};
+
+// Client-side function to set user data
+export const setCurrentUser = (user: UserJwtPayload): void => {
+  if (typeof window !== 'undefined') {
+    localStorage.setItem('user', JSON.stringify(user));
+  }
+};
+
+// Client-side function to remove user data
+export const removeCurrentUser = (): void => {
+  if (typeof window !== 'undefined') {
+    localStorage.removeItem('user');
+  }
 };

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import connectToDatabase from '@/lib/db';
 import User from '@/models/User';
-import { generateToken, setTokenCookie } from '@/lib/auth';
+import { generateToken } from '@/lib/auth';
 
 export async function POST(req: NextRequest) {
   try {
@@ -57,11 +57,8 @@ export async function POST(req: NextRequest) {
       departmentId: user.departmentId?.toString()
     });
     
-    // Set token in HTTP-only cookie
-    await setTokenCookie(token);
-    
-    // Return user data (excluding password)
-    return NextResponse.json({
+    // Create response with user data
+    const response = NextResponse.json({
       user: {
         id: user._id,
         email: user.email,
@@ -69,8 +66,22 @@ export async function POST(req: NextRequest) {
         role: user.role,
         departmentId: user.departmentId,
         departmentName: user.departmentName
-      }
+      },
+      token
     });
+    
+    // Set token in HTTP-only cookie
+    response.cookies.set({
+      name: 'token',
+      value: token,
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      path: '/',
+      maxAge: 7 * 24 * 60 * 60 // 7 days
+    });
+    
+    return response;
   } catch (error: any) {
     console.error('Login error:', error);
     return NextResponse.json(
