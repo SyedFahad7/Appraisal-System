@@ -66,3 +66,11 @@ export const removeCurrentUser = (): void => {
     localStorage.removeItem('user');
   }
 };
+
+// Server-side function to get current user from request
+export const getServerCurrentUser = (req: NextRequest): UserJwtPayload | null => {
+  const token = getTokenFromRequest(req);
+  if (!token) return null;
+  
+  return verifyToken(token);
+};

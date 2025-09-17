@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import connectToDatabase from '@/lib/db';
 import User from '@/models/User';
-import { getCurrentUser } from '@/lib/auth';
+import { getServerCurrentUser } from '@/lib/auth';
 import { ObjectId } from 'mongodb';
 
 // Get all users (filtered by department for HOD)
@@ -11,7 +11,7 @@ export async function GET(req: NextRequest) {
     await connectToDatabase();
     
     // Get current user from token
-    const currentUser = getCurrentUser();
+    const currentUser = getServerCurrentUser(req);
     
     if (!currentUser) {
       return NextResponse.json(
@@ -69,7 +69,7 @@ export async function POST(req: NextRequest) {
     await connectToDatabase();
     
     // Get current user from token
-    const currentUser = getCurrentUser();
+    const currentUser = getServerCurrentUser(req);
     
     if (!currentUser) {
       return NextResponse.json(
