@@ -14,7 +14,7 @@ export default function HodAppraisalReview() {
   
   useEffect(() => {
     const fetchData = async () => {
-      const currentUser = await getCurrentUser();
+      const currentUser = getCurrentUser();
       if (!currentUser || currentUser.role !== 'HOD') {
         router.push('/login');
         return;

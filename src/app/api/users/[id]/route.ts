@@ -13,7 +13,7 @@ export async function GET(req: NextRequest, context: { params: Promise<{ id: str
     await connectToDatabase();
     
     // Get current user from token
-    const currentUser = await getCurrentUser();
+    const currentUser = getCurrentUser();
     
     if (!currentUser) {
       return NextResponse.json(
@@ -78,7 +78,7 @@ export async function PUT(req: NextRequest, context: { params: Promise<{ id: str
     await connectToDatabase();
     
     // Get current user from token
-    const currentUser = await getCurrentUser();
+    const currentUser = getCurrentUser();
     
     if (!currentUser) {
       return NextResponse.json(
@@ -171,7 +171,7 @@ export async function PATCH(req: NextRequest, context: { params: Promise<{ id: s
     await connectToDatabase();
     
     // Get current user from token
-    const currentUser = await getCurrentUser();
+    const currentUser = getCurrentUser();
     
     if (!currentUser) {
       return NextResponse.json(
@@ -275,7 +275,7 @@ export async function DELETE(req: NextRequest, context: { params: Promise<{ id: 
     await connectToDatabase();
     
     // Get current user from token
-    const currentUser = await getCurrentUser();
+    const currentUser = getCurrentUser();
     
     if (!currentUser) {
       return NextResponse.json(

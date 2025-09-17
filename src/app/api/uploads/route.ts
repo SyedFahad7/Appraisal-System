@@ -10,7 +10,7 @@ import FacultySelfAppraisal from '@/models/FacultySelfAppraisal';
 export async function POST(req: NextRequest) {
   try {
     // Get current user from token
-    const currentUser = await getCurrentUser();
+    const currentUser = getCurrentUser();
     
     if (!currentUser) {
       return NextResponse.json(

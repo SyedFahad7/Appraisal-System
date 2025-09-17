@@ -58,7 +58,7 @@ export async function POST(req: NextRequest) {
     });
     
     // Set token in HTTP-only cookie
-    setTokenCookie(token);
+    await setTokenCookie(token);
     
     // Return user data (excluding password)
     return NextResponse.json({

@@ -28,8 +28,8 @@ export const verifyToken = (token: string): UserJwtPayload | null => {
 };
 
 // Set JWT token in HTTP-only cookie
-export const setTokenCookie = async (token: string) => {
-  (await cookies()).set({
+export const setTokenCookie = (token: string) => {
+  cookies().set({
     name: 'token',
     value: token,
     httpOnly: true,
@@ -41,13 +41,13 @@ export const setTokenCookie = async (token: string) => {
 };
 
 // Remove JWT token cookie
-export const removeTokenCookie = async () => {
-  (await cookies()).delete('token');
+export const removeTokenCookie = () => {
+  cookies().delete('token');
 };
 
 // Get JWT token from cookies
-export const getTokenFromCookies = async (): Promise<string | undefined> => {
-  return (await cookies()).get('token')?.value;
+export const getTokenFromCookies = (): string | undefined => {
+  return cookies().get('token')?.value;
 };
 
 // Get JWT token from request
@@ -66,8 +66,8 @@ export const getTokenFromRequest = (req: NextRequest): string | null => {
 };
 
 // Get current user from token
-export const getCurrentUser = async (): Promise<UserJwtPayload | null> => {
-  const token = await getTokenFromCookies();
+export const getCurrentUser = (): UserJwtPayload | null => {
+  const token = getTokenFromCookies();
   if (!token) return null;
   
   return verifyToken(token);

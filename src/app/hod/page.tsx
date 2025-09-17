@@ -12,7 +12,7 @@ export default function HodDashboard() {
   
   useEffect(() => {
     const fetchData = async () => {
-      const currentUser = await getCurrentUser();
+      const currentUser = getCurrentUser();
       if (!currentUser || currentUser.role !== 'HOD') {
         router.push('/login');
         return;

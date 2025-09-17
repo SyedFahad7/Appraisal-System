@@ -16,7 +16,7 @@ export default function PrincipalAppraisalReviewList() {
   useEffect(() => {
     const fetchData = async () => {
     // Check if user is authenticated and is Principal
-    const currentUser = await getCurrentUser();
+    const currentUser = getCurrentUser();
     if (!currentUser || currentUser.role !== 'Principal') {
       router.push('/login');
       return;

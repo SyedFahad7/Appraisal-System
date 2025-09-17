@@ -10,7 +10,7 @@ export async function GET(req: NextRequest) {
     await connectToDatabase();
     
     // Get current user from token
-    const currentUser = await getCurrentUser();
+    const currentUser = getCurrentUser();
     
     if (!currentUser) {
       return NextResponse.json(
@@ -39,7 +39,7 @@ export async function POST(req: NextRequest) {
     await connectToDatabase();
     
     // Get current user from token
-    const currentUser = await getCurrentUser();
+    const currentUser = getCurrentUser();
     
     if (!currentUser) {
       return NextResponse.json(
