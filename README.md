@@ -1,36 +1,101 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Faculty Appraisal System
 
-## Getting Started
+A full-stack web application for managing faculty performance appraisals at LORDS Institute. This project is built with [Next.js](https://nextjs.org).
 
-First, run the development server:
+## Setup Instructions
+
+### Prerequisites
+
+- Node.js (v16 or later)
+- MongoDB (local installation or MongoDB Atlas account)
+- Git
+
+### Installation Steps
+
+1. **Clone the repository and install dependencies**
+
+```bash
+git clone <repository-url>
+cd faculty-appraisal-system
+npm install
+```
+
+2. **Environment Configuration**
+
+- Copy the `.env.example` file to `.env`:
+
+```bash
+cp .env.example .env
+```
+
+- Edit the `.env` file with your specific configuration:
+
+#### MongoDB URI Setup
+
+- **For MongoDB Atlas:**
+  1. Create an account at [MongoDB Atlas](https://www.mongodb.com/cloud/atlas)
+  2. Create a new cluster
+  3. Click "Connect" and select "Connect your application"
+  4. Copy the connection string and replace `<username>`, `<password>`, `<cluster-url>`, and `<database-name>` with your values
+
+- **For local MongoDB:**
+  - Use `mongodb://localhost:27017/faculty-appraisal-system`
+
+#### JWT Secret Setup
+
+- Generate a strong random string for JWT_SECRET
+- You can use this command to generate a secure random string:
+
+```bash
+node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+```
+
+3. **Database Initialization**
+
+```bash
+node scripts/db-setup.js
+```
+
+4. **Run the Development Server**
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## System Features
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **User Authentication**: Secure login with role-based access control (Faculty, HOD, Principal, Admin)
+- **Faculty Self-Appraisal**: Form for faculty to submit their performance details
+- **HOD Assessment**: Interface for HODs to review and score faculty performance
+- **Principal's Review**: Final review and remarks by the Principal
+- **Dashboard**: Role-specific dashboards with relevant statistics and actions
+- **Reports**: Comprehensive reporting and analytics
 
-## Learn More
+## System Architecture
 
-To learn more about Next.js, take a look at the following resources:
+- **Frontend**: Next.js, React, Tailwind CSS
+- **Backend**: Next.js API Routes
+- **Database**: MongoDB
+- **Authentication**: JWT
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Project Structure
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- `/src/app` - Next.js application pages and API routes
+- `/src/models` - MongoDB schema models
+- `/src/lib` - Utility functions and database connection
+- `/public` - Static assets
 
-## Deploy on Vercel
+## Default User Credentials
+
+- **Admin**: admin@lords.ac.in / admin123
+- **Principal**: principal@lords.ac.in / password123
+- **HOD**: hod@lords.ac.in / password123
+- **Faculty**: faculty@lords.ac.in / password123
+
+## Deployment
 
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+For other deployment options, check out the [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying).
