@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import connectToDatabase from '@/lib/db';
 import FacultySelfAppraisal from '@/models/FacultySelfAppraisal';
 import User from '@/models/User';
-import { getCurrentUser } from '@/lib/auth';
+import { getServerCurrentUser } from '@/lib/auth';
 
 // Get faculty self-appraisals
 export async function GET(req: NextRequest) {
@@ -11,7 +11,7 @@ export async function GET(req: NextRequest) {
     await connectToDatabase();
     
     // Get current user from token
-    const currentUser = getCurrentUser();
+    const currentUser = getServerCurrentUser(req);
     
     if (!currentUser) {
       return NextResponse.json(
@@ -81,7 +81,7 @@ export async function POST(req: NextRequest) {
     await connectToDatabase();
     
     // Get current user from token
-    const currentUser = getCurrentUser();
+    const currentUser = getServerCurrentUser(req);
     
     if (!currentUser) {
       return NextResponse.json(
